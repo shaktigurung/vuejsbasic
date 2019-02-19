@@ -47,11 +47,7 @@
         </ol>
     </div>
 
-    <div id="app8">
-            <p>{{ foo }}</p>
-            <!-- this will no longer update `foo`! -->
-            <button v-on:click="foo = 'yo changed'">Change it</button>
-    </div>
+    
 
 <!-- <div id="demo">{{ fullName }}</div> -->
 <div id="demo1">{{ fullName }}</div>
@@ -63,8 +59,43 @@
       {{name}}
   </div>
 
-  
+  <!-- Loops and Conditional -->
+  <div id="app10">
+    <template v-if= "books == 'full'"> You can only see me when books is full </template> 
+    <template v-else= "books"> You can only see me when books is not full 
+        <ul >
+            <li v-for= "(book, index) in setBooks">{{index + 1}} {{book}}</li>
+        </ul>
+    </template>     
+   </div>
+
+    <!-- Events -->
+    <div id="app8">
+            <p>{{ foo }}</p>
+            <!-- this will no longer update `foo`! -->
+            <button v-on:click="foo = 'yo changed'">Change it</button>
+    </div>
     
+    <div id="app11">
+        <span> Counter: {{counter}}</span>
+        <h2>Using buttons to increment/decrement</h2>
+        <button v-on:click= "increment"> +1 </button> 
+        <button @click= "decrement"> -1 </button> 
+        <h2>Using links to increment/decrement</h2>
+        <a href="www.google.com" @click="increment"> +1 </a>
+        <a href="www.google.com" @click="decrement"> -1 </a>
+
+        <input type="text" v-on:keyup.enter = "customFunction"/>
+    </div>
+
+    <div id="app12">
+        <h2>Multiple Counter using Components</h2>
+        <my-counter text="Add One"></my-counter>
+        <my-counter text="+1"></my-counter>
+    </div>
+
+
+<!----**********************************************************-->  
 <!-- development version, includes helpful console warnings -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript">
@@ -142,16 +173,7 @@
  })
 
 
- var obj = {
-     foo: 'bar'
- }
-
- Object.freeze(obj)
-
- var app8 = new Vue({
-     el: "#app8",
-     data: obj
- })
+ 
 
  //LifeCycle Hooks
 /* created, mounted , updated and destroyed */
@@ -226,9 +248,69 @@ var app9 = new Vue({
         name: function(){
             return this.first_name + ' ' + this.last_name;
         }
+    },
+    updated: function(){
+        console.log("Updated");
     }
 })
 
+//Loops and Conditional 
+var app10 = new Vue({
+    el: "#app10",
+    data: {
+        books: " not full",
+        setBooks: ['Math','Science', 'Computer']
+    }
+})
+
+// Events
+
+var obj = {
+     foo: 'bar'
+ }
+
+ Object.freeze(obj)
+
+ var app8 = new Vue({
+     el: "#app8",
+     data: obj
+ })
+
+ var app11 = new Vue({
+     el: "#app11",
+     data: {
+         counter: 0
+     },
+     methods: {
+         increment: function(e){
+             e.preventDefault();
+             return this.counter += 1;
+         },
+         decrement: function(e){
+             e.preventDefault();
+             return this.counter -= 1;
+         },
+         customFunction: function(){
+             alert("You just entered custom function")
+         }
+     }
+ })
+
+//Components
+ Vue.component('my-counter', {
+     props: ['text'],
+     template: '<div><input type="button" v-on:click= "counter+=1" :value= "text" /> <button @click= "counter-=1"> -1 </button>  <span> counter: {{counter}}</span></div>',
+     data: function(){
+         return {
+             counter: 0
+         }
+     }
+ 
+ })
+var app12 = new Vue({
+    el: "#app12",
+    
+})
 </script>
 </body>
 </html>
