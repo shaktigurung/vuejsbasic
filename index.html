@@ -53,21 +53,31 @@
             <button v-on:click="foo = 'yo changed'">Change it</button>
     </div>
 
+<!-- <div id="demo">{{ fullName }}</div> -->
+<div id="demo1">{{ fullName }}</div>
 
-  <!-- LifeCycle Hooks -->
+  <!-- Data Binding -->
+  <div id="app9">
+      <input type="text" v-model="first_name">
+      <input type="text" v-model = "last_name">
+      {{name}}
+  </div>
 
-  <!-- <div id="demo">{{ fullName }}</div> -->
-  <div id="demo1">{{ fullName }}</div>
+  
     
 <!-- development version, includes helpful console warnings -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script>
+<script type="text/javascript">
 
 //Vue Basics
  var app = new Vue({
      el: "#app",
      data: {
          message: 'Hello Vue'
+         
+     },
+     created: function(){
+        return console.log("Vue instance is created")
      }
  })
 
@@ -189,6 +199,36 @@ var vm = new Vue({
     }
   }}
 })
+
+//Data Binding
+var app9 = new Vue({
+    el: "#app9",
+    data: {
+        first_name: 'John',
+        last_name: 'Doe',
+        // name: ''
+    },
+    //watchers
+    // watch: {
+    //     first_name: function(){
+    //         return this.name = this.first_name + ' ' + this.last_name
+    //     },
+    //     last_name: function(){
+    //         return this.name = this.first_name + ' ' + this.last_name
+    //     }
+    // },
+    // created: function(){
+    //     return this.name = this.first_name + ' ' + this.last_name;
+    // }
+
+    // We can use watchers or computed for same result
+    computed: {
+        name: function(){
+            return this.first_name + ' ' + this.last_name;
+        }
+    }
+})
+
 </script>
 </body>
 </html>
